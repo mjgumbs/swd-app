@@ -1,3 +1,9 @@
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
+{{swd-header}}
+<div id="wrapper" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 hidden-xs sidebar" id="main-sidebar">
+      {{ partial 'shared/main-menu'}}
+    </div>
+    {{outlet}}
+  </div>
+</div>
