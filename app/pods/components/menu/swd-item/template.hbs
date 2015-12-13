@@ -1,0 +1,14 @@
+<ul class="nav nav-sidebar">
+  <li class="sidebar-menu-item">
+    <a {{action 'toggleSubMenu'}} href="#">
+        <span class="icon icon-eye-open"></span>
+        <span class="text">{{title}}</span>
+        <span class="icon {{if isHidden "icon-chevron-left" "icon-chevron-down" }}  pull-right"></span>
+    </a>
+    <ul class="{{if isHidden "collapse"}} nav nav-pills nav-stacked">
+      <li class="sidebar-menu-item">
+        {{yield}}
+      </li>
+    </ul>
+  </li>
+</ul>
