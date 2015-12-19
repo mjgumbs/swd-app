@@ -1,0 +1,57 @@
+{{#application/swd-page-header as |section|}}
+  {{#if section.isTitle}}
+    Inspections
+  {{else if section.isActions}}
+    <a {{action 'createInspection'}} href="#" class="btn btn-success" icon="add">
+      <span class="icon icon-add"></span>New Inspection
+    </a>
+  {{/if}}
+{{/application/swd-page-header}}
+<div class="row">
+  <div class="col-md-12">
+    {{#each flashMessages.queue as |flash|}}
+      {{#flash-message flash=flash as |component flash|}}
+        {{#if flash.componentName}}
+          {{component flash.componentName content=flash.content}}
+        {{else}}
+          <p>{{flash.message}}</p>
+        {{/if}}
+      {{/flash-message}}
+    {{/each}}
+  </div>
+  <div class="col-sm-12" id="content">
+    {{#application/swd-search}}
+      <form>
+        <div class="row">
+          <div class="date-range-filter col-md-8">
+            <div class="form-group">
+              <label for="q_completed_at_gt">Date Range</label>
+              <div class="row no-padding-bottom">
+                <div class="col-md-6">
+                  {{application/swd-datepicker placeholder="Start"}}
+                </div>
+                <div class="col-md-6">
+                  {{application/swd-datepicker placeholder="End"}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="q_number_cont">Inspection Number</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </form>
+    {{/application/swd-search}}
+    <div class="row index-pagination-row">
+      <div class="col-sm-6">
+
+      </div>
+      <div class="col-sm-6">
+
+      </div>
+    </div>
+  </div>
+</div>

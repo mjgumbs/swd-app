@@ -1,6 +1,23 @@
 @import 'global/variables';
 
 @import 'bootstrap';
+@import 'pikaday';
+
+$ember-power-select-line-height: 2.6;
+$ember-power-select-border-color: #ccc;
+$ember-power-select-trigger-icon-color: #999;
+$ember-power-select-focus-outline: 0;
+$ember-power-select-default-border-radius: 0px;
+$ember-power-select-dropdown-margin: 3px;
+$ember-power-select-dropdown-box-shadow: rgba(black, 0.172549) 0px 6px 12px 0px;
+$ember-power-select-highlighted-color: inherit;
+$ember-power-select-highlighted-background: #f5f5f5;
+$ember-power-select-selected-background: #f5f5f5;
+$ember-power-select-focus-border-color: lighten($brand-success, 20);
+$ember-power-select-focus-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+$ember-power-select-trigger-contiguous-border: 1px solid $ember-power-select-border-color !default;
+
+
 
 @import 'components/sidebar';
 @import 'components/tables';
@@ -27,3 +44,4 @@
 
 @import 'shared/base';
 @import 'shared/forms';
+@import 'ember-power-select';

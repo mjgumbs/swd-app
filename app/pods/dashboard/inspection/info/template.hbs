@@ -1,0 +1,58 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 class="panel-title">Establishment</h1>
+  </div>
+  <div class="panel-body">
+    {{#power-select search=(action "searchEstablishment") selected=establishment onchange=(action 'selectEstablishment')
+      placeholder='Select an establishment'
+      searchMessage='Please enter three or more charachters'
+      as |establishment|
+    }}
+      {{establishment.tradeName}}
+    {{/power-select}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title">Inspection Date</h1>
+      </div>
+      <div class="panel-body">
+        {{application/swd-datepicker date=inspection.inspectedAt placeholder="Start"}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title">Inspector(s)</h1>
+      </div>
+      <div class="panel-body">
+        {{#power-select search=(action "searchInspectors") selected=inspectors onchange=(action 'selectInspectors')
+          placeholder='Choose an inspector'
+          multiple=true
+          searchMessage='Please enter three or more charachters'
+          as |inspector|
+        }}
+          {{inspector.fullName}}
+        {{/power-select}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 class="panel-title">Scope</h1>
+  </div>
+  <div class="panel-body">
+    {{#power-select search=(action "searchScope") selected=scope onchange=(action 'selectScope')
+      placeholder='Select a scope'
+      searchMessage='Please enter three or more charachters'
+      as |scope|
+    }}
+      {{scope.name}}
+    {{/power-select}}
+  </div>
+</div>

@@ -1,0 +1,58 @@
+{{#application/swd-page-header as |section|}}
+  {{#if section.isTitle}}
+    {{#link-to 'dashboard.inspections'}}Inspections{{/link-to}} /
+    {{#link-to 'dashboard.inspection.info' model}}
+      {{model.id}}
+    {{/link-to}}
+  {{else if section.isActions}}
+  {{/if}}
+{{/application/swd-page-header}}
+<div class="row">
+  <div class="col-md-12">
+    {{#each flashMessages.queue as |flash|}}
+      {{#flash-message flash=flash as |component flash|}}
+        {{#if flash.componentName}}
+          {{component flash.componentName content=flash.content}}
+        {{else}}
+          <p>{{flash.message}}</p>
+        {{/if}}
+      {{/flash-message}}
+    {{/each}}
+  </div>
+  <div class="with-sidebar col-md-9 col-sm-8" id="content">
+    {{outlet}}
+    <div class="text-right">
+      <a href="#" {{action 'nextStep'}} class="btn btn-success">Next Step</a>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-4">
+    <aside id="sidebar" class="main-right-sidebar">
+      <ul  class=" nav nav-pills nav-stacked">
+        {{#link-to 'dashboard.inspection.info' model tagName="li"}}
+          <a class="icon-link with-tip action-oil" href="#">
+            <span class="icon icon-oil"></span>
+            <span class="text">
+              <span>Info</span>
+            </span>
+          </a>
+        {{/link-to}}
+        {{#link-to 'dashboard.inspection.assessment' model tagName="li"}}
+          <a class="icon-link with-tip action-education" href="#">
+            <span class="icon icon-education"></span>
+            <span class="text">
+              <span>Assessment</span>
+            </span>
+          </a>
+        {{/link-to}}
+        {{#link-to 'dashboard.inspection.attachment' model tagName="li"}}
+          <a class="icon-link with-tip action-envelope" href="#">
+            <span class="icon icon-envelope"></span>
+            <span class="text">
+              <span>Attachment</span>
+            </span>
+          </a>
+        {{/link-to}}
+      </ul>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="col-sm-12">
+  <div class="input-group index-filter-button">
+    <span class="input-group-btn">
+      <button {{action 'toggleFilter'}} class="btn btn-default" type="button">
+        <span class="icon {{if collapsed "icon-chevron-down" "icon-chevron-right" }} icon-chevron-right"></span>
+        Filter
+      </button>
+    </span>
+    <form id="quick-search">
+      <input type="text" class="form-control js-quick-search" placeholder="Quick search..">
+    </form>
+  </div>
+  {{#if collapsed}}
+    <div id="table-filter" class="well filter-well">
+      <div>
+        {{yield}}
+      </div>
+    </div>
+  {{/if}}
+</div>

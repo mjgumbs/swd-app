@@ -1,15 +1,2 @@
-{{application/swd-header}}
-<div id="wrapper" class="container-fluid ">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 hidden-xs sidebar" id="main-sidebar">
-          {{#menu/swd-item title='inspection'}}
-            {{#link-to 'inspections'}}Inspections{{/link-to}}
-            {{#link-to 'inspections'}}Scopes{{/link-to}}
-          {{/menu/swd-item}}
-        </div>
-
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="main-part">
-          {{outlet}}
-        </div>
-    </div>
-</div>
+{{application/swd-header logout='logout'}}
+{{outlet}}

@@ -1,0 +1,38 @@
+{{#each flashMessages.queue as |flash|}}
+  {{#flash-message flash=flash as |component flash|}}
+    {{#if flash.componentName}}
+      {{component flash.componentName content=flash.content}}
+    {{else}}
+      <p>{{flash.message}}</p>
+    {{/if}}
+  {{/flash-message}}
+{{/each}}
+<form {{action "authenticate" on="submit"}}>
+  <div id="password-credentials">
+    <div class="form-group text-center">
+      <label for="gesmew_user_email">Email</label>
+      {{input value=identification class="form-control" tabindex="1" placeholder="Email" type="email" }}
+    </div>
+    <div class="form-group text-center">
+      <label for="gesmew_user_password">Password</label>
+      {{input value=password class="form-control" tabindex="2" placeholder="Password" type="password" }}
+    </div>
+  </div>
+  <div class="checkbox form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="gesmew_user_remember_me">
+          <input name="gesmew_user[remember_me]" type="hidden" value="0">
+          <input tabindex="3" type="checkbox" value="1" >
+           Remember me
+        </label>
+      </div>
+      <div class="col-md-6 text-right">
+        <a href="/password/recover"><span class="translation_missing">Forgot Password</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <input disabled={{buttonDisabled}} type="submit" name="commit" value="Login" class="btn btn-primary btn-block" tabindex="4">
+  </div>
+</form>
