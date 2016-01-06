@@ -3,7 +3,7 @@
     <h1 class="panel-title">Establishment</h1>
   </div>
   <div class="panel-body">
-    {{#power-select search=(action "searchEstablishment") selected=establishment onchange=(action 'selectEstablishment')
+    {{#power-select search=(action "searchEstablishment") selected=inspection.establishment onchange=(action 'selectEstablishment')
       placeholder='Select an establishment'
       searchMessage='Please enter three or more charachters'
       as |establishment|
@@ -12,25 +12,36 @@
     {{/power-select}}
   </div>
 </div>
+{{#unless establishmentPresent}}
+  <div class="alert alert-warning">
+    There is no establishment for this inspection, please select an establishment and add it to the inspection to continue.
+  </div>
+{{/unless}}
 
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h1 class="panel-title">Inspection Date</h1>
+        <h1 class="panel-title">Date of inspection</h1>
       </div>
       <div class="panel-body">
-        {{application/swd-datepicker date=inspection.inspectedAt placeholder="Start"}}
+        <div class="input-group">
+          {{application/swd-datepicker setDate=(action 'setInspectionDate')
+          date=inspection.inspectedAt placeholder="Select the date the inspection took place"}}
+          <span class="input-group-addon">
+            <i class="icon icon-calendar"></i>
+          </span>
+       </div>
       </div>
     </div>
   </div>
-  <div class="col-md-7">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h1 class="panel-title">Inspector(s)</h1>
       </div>
       <div class="panel-body">
-        {{#power-select search=(action "searchInspectors") selected=inspectors onchange=(action 'selectInspectors')
+        {{#power-select search=(action "searchInspectors") selected=inspection.inspectors onchange=(action 'selectInspectors')
           placeholder='Choose an inspector'
           multiple=true
           searchMessage='Please enter three or more charachters'
@@ -42,17 +53,37 @@
     </div>
   </div>
 </div>
+{{#unless inspectorsPresent}}
+  <div class="alert alert-warning">
+    There should be atleast one inspector, please choose one or more inspectors and add them to the inspection to continue.
+  </div>
+{{/unless}}
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h1 class="panel-title">Scope</h1>
+    <h1 class="panel-title">Scope of inspection</h1>
   </div>
   <div class="panel-body">
-    {{#power-select search=(action "searchScope") selected=scope onchange=(action 'selectScope')
+    {{#power-select search=(action "searchScope") selected=inspection.scope onchange=(action 'selectScope')
       placeholder='Select a scope'
+      dropdownPosition='below'
       searchMessage='Please enter three or more charachters'
       as |scope|
     }}
       {{scope.name}}
     {{/power-select}}
   </div>
+</div>
+{{#unless scopePresent}}
+  <div class="alert alert-warning">
+    There is no scope for this inspection, please select a scope of inspection and add it the inspection to continue.
+  </div>
+{{/unless}}
+<div class="text-right">
+  {{#application/swd-button-spinner
+    loading=isLoading
+    disabled=isInValid
+    action=(action "save")
+    data-style="expand-right"}}
+    <span class="ladda-label">Next Step</span>
+  {{/application/swd-button-spinner}}
 </div>

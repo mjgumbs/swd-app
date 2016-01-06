@@ -12,10 +12,9 @@ export default Ember.Component.extend({
             return {
                 value: input,
                 text: input
-            }
+            };
         }
       });
-    })
-
+    });
   }
 });

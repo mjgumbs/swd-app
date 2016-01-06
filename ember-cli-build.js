@@ -7,7 +7,8 @@ module.exports = function(defaults) {
       sassOptions: {
         includePaths:[
           'bower_components/bootstrap-sass/assets/stylesheets',
-          'bower_components/pikaday/scss'
+          'bower_components/pikaday/scss',
+          'bower_components/SpinKit/scss'
           ]
       }
   });
@@ -18,5 +19,8 @@ module.exports = function(defaults) {
     destDir: 'fonts/bootstrap'
   });
   app.import('bower_components/pikaday/pikaday.js');
+  app.import('bower_components/ladda-bootstrap/dist/ladda-themeless.css');
+  app.import('bower_components/ladda-bootstrap/dist/spin.js');
+  app.import('bower_components/ladda-bootstrap/dist/ladda.js');
   return app.toTree();
 };

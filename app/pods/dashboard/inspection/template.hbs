@@ -21,9 +21,6 @@
   </div>
   <div class="with-sidebar col-md-9 col-sm-8" id="content">
     {{outlet}}
-    <div class="text-right">
-      <a href="#" {{action 'nextStep'}} class="btn btn-success">Next Step</a>
-    </div>
   </div>
   <div class="col-md-3 col-sm-4">
     <aside id="sidebar" class="main-right-sidebar">
@@ -36,7 +33,7 @@
             </span>
           </a>
         {{/link-to}}
-        {{#link-to 'dashboard.inspection.assessment' model tagName="li"}}
+        {{#link-to 'dashboard.inspection.assessment' model tagName="li" disabled=canGoToAssessment}}
           <a class="icon-link with-tip action-education" href="#">
             <span class="icon icon-education"></span>
             <span class="text">
@@ -44,7 +41,7 @@
             </span>
           </a>
         {{/link-to}}
-        {{#link-to 'dashboard.inspection.attachment' model tagName="li"}}
+        {{#link-to 'dashboard.inspection.attachment' model tagName="li" disabled=canGoToAttachment}}
           <a class="icon-link with-tip action-envelope" href="#">
             <span class="icon icon-envelope"></span>
             <span class="text">

@@ -4,5 +4,7 @@ export default DS.Model.extend({
   state: DS.attr('string'),
   assessed: DS.attr('boolean'),
   inspectors: DS.hasMany('user'),
-  establishment: DS.belongsTo('establishment')
+  establishment: DS.belongsTo('establishment'),
+  scope: DS.belongsTo('inspection-scope'),
+  inspectedAt: DS.attr('date')
 });

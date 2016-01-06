@@ -20,7 +20,7 @@
     {{/each}}
   </div>
   <div class="col-sm-12" id="content">
-    {{#application/swd-search}}
+    {{#application/swd-search collapsed=searchCollapsed}}
       <form>
         <div class="row">
           <div class="date-range-filter col-md-8">
@@ -28,10 +28,17 @@
               <label for="q_completed_at_gt">Date Range</label>
               <div class="row no-padding-bottom">
                 <div class="col-md-6">
-                  {{application/swd-datepicker placeholder="Start"}}
+                  {{application/swd-datepicker
+                    date=startDate
+                    setDate=(action 'setStartDate')
+                    placeholder="Start"}}
                 </div>
                 <div class="col-md-6">
-                  {{application/swd-datepicker placeholder="End"}}
+                  {{application/swd-datepicker
+                    minDate=startDate
+                    date=endDate
+                    setDate=(action 'setEndDate')
+                    placeholder="End"}}
                 </div>
               </div>
             </div>
@@ -43,15 +50,118 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              {{#power-select search=(action "searchScope") selected=scope onchange=(action 'selectScope')
+                placeholder='Select a scope'
+                dropdownPosition='below'
+                searchMessage='Please enter three or more charachters'
+                as |scope|
+              }}
+                {{scope.name}}
+              {{/power-select}}
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button disabled={{isLoading}} {{action 'searchInspection'}} name="button" type="submit" class="btn btn-primary">
+            <span class="icon icon-search"></span>
+            Filter Results
+          </button>
+          <button disabled={{isLoading}} {{action 'clearSearch'}} name="button" type="submit" class="btn btn-warning pull-right ">
+            <span class="icon icon-remove"></span>
+            Clear Search
+          </button>
+        </div>
       </form>
     {{/application/swd-search}}
-    <div class="row index-pagination-row">
-      <div class="col-sm-6">
+    {{#unless isLoading}}
+      <div class="row index-pagination-row">
+        <div class="col-sm-6">
 
-      </div>
-      <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <div class="pagination-wrap">
+            <form class="form-inline" type="hidden">
+              <select onchange={{action (mut per_page) value="target.value"}} class="form-control pull-right">
+                {{#each perPageOptions as |perPageChoice|}}
+                  <option value="{{perPageChoice}}" selected={{eq perPageChoice per_page}}>{{perPageChoice}}</option>
+                {{/each}}
+              </select>
+            </form>
+          <div class="clearfix"></div>
+         </div>
+       </div>
+     </div>
+     {{#if model.length}}
+       <table class="table">
+         <thead>
+           <tr>
+             <th class="col-md-1">Inspection Date</th>
+             <th class="col-md-1">Number</th>
+             <th class="col-md-1">State</th>
+             <th class="col-md-1">Scope</th>
+             <th class="col-md-1">Establishment</th>
+             <th class="col-md-1">Inspector(s)</th>
+           </tr>
+         </thead>
+         <tbody>
+           {{#each model as |inspection|}}
+             <tr>
+               <td>{{moment-format inspection.inspectedAt 'DD-MM-YYYY'}}</td>
+               <td>
+                 {{#link-to 'dashboard.inspection' inspection}}{{inspection.id}}{{/link-to}}
+               </td>
+               <td>
+                 <span class="label label-{{inspection.state}}">{{inspection.state}}</span>
+               </td>
+               <td>{{inspection.scope.name}}</td>
+               <td>{{inspection.establishment.tradeName}}</td>
+               <td>
+                {{#each inspection.inspectors as |inspector|}}
+                  <ul>
+                    <li>{{inspector.fullName}}</li>
+                  </ul>
+                {{/each}}
+               </td>
+             </tr>
+           {{/each}}
+         </tbody>
+       </table>
+       {{else}}
+       <div class="alert alert-info no-objects-found">
+        No Inspections found,
+        <a {{action 'createInspection'}} href="#">
+          Add one!
+        </a>
+       </div>
+       {{/if}}
+     <div class="row index-pagination-row">
+       <div class="col-sm-6">
 
+       </div>
+       <div class="col-sm-6">
+         <div class="pagination-wrap">
+           <form class="form-inline" type="hidden">
+             <select onchange={{action (mut per_page) value="target.value"}} class="form-control pull-right">
+               {{#each perPageOptions as |perPageChoice|}}
+                 <option value="{{perPageChoice}}" selected={{eq perPageChoice per_page}}>{{perPageChoice}}</option>
+               {{/each}}
+             </select>
+           </form>
+         <div class="clearfix"></div>
+        </div>
       </div>
     </div>
+    {{else}}
+      <div class="loader">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    {{/unless}}
   </div>
 </div>

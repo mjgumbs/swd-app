@@ -3,8 +3,24 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   inspectionController: Ember.inject.controller('dashboard.inspection'),
   inspection: Ember.computed.reads('inspectionController.model'),
-  establishment: Ember.computed.reads('inspection.establishment'),
-  inspectors: Ember.computed.reads('inspection.inspectors'),
+
+  establishmentPresent: Ember.computed('inspection.establishment', function(){
+    return this.get('inspection.establishment.content') !== null ;
+  }),
+
+  inspectorsPresent: Ember.computed('inspection.inspectors', function(){
+    return this.get('inspection.inspectors.length') > 0;
+  }),
+
+  scopePresent: Ember.computed('inspection.scope', function(){
+    return this.get('inspection.scope.content') !== null;
+  }),
+
+  isInValid: Ember.computed('establishmentPresent','inspectorsPresent', 'scopePresent', function(){
+    return this.get('establishmentPresent') && this.get('inspectorsPresent') && this.get('scopePresent') ? null : true;
+  }),
+
+  isLoading: false,
 
   actions:{
     // Establishment Actions
@@ -17,13 +33,19 @@ export default Ember.Controller.extend({
           }
         }
       );
-      this.set('establishment', establishment);
       return establishment;
     },
 
     selectEstablishment: function(establishment){
-      this.set('establishment', establishment);
-      this.get('inspection').set('establishment', establishment);
+      var inspection = this.get('inspection');
+      inspection.set('establishment', establishment);
+    },
+
+    // Inspection Date action
+
+    setInspectionDate: function(date){
+      var inspection = this.get('inspection');
+      inspection.set('inspectedAt', new Date(date));
     },
 
     // Inspector Actions
@@ -31,9 +53,12 @@ export default Ember.Controller.extend({
       if(term.length < 3){return [];}
       var inspectors = this.store.query('user',
         {
-          q: term,
-          object: `inspection/${this.get('inspection').id}`,
-          related: 'inspectors'
+          q: {
+            m:'or',
+            first_name_start: term,
+            last_name_start: term,
+            email_cont: term
+          }
         }
       );
       return inspectors;
@@ -44,14 +69,13 @@ export default Ember.Controller.extend({
       inspection.set('inspectors', []);
       inspectors.forEach((inspector) => {
         inspection.get('inspectors').pushObject(inspector);
-      })
-      this.set('inspectors', inspectors);
+      });
     },
 
     // Scope Actions
     searchScope: function(term){
       if(term.length < 3){return [];}
-      var scope = this.store.query('inspection/scope',
+      var scope = this.store.query('inspection-scope',
         {
           q: {
             name_cont: term
@@ -62,8 +86,17 @@ export default Ember.Controller.extend({
     },
 
     selectScope: function(scope){
-      this.set('scope', scope);
-      this.get('inspection').set('inspection/scope', scope);
+      var inspection = this.get('inspection');
+      inspection.set('scope', scope);
+    },
+
+    // Next step
+    save: function(){
+      this.set('isLoading', true)
+      this.model.save().then(() =>{
+        this.set('isLoading', false);
+        this.send('nextStep', 'dashboard.inspection');
+      });
     }
   }
 });

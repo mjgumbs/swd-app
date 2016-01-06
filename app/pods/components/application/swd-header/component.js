@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 import ClickOutise from 'swd-app/mixins/components/click-outside';
 import layout from 'swd-app/pods/components/click-outside/template';
-const { Component, on } = Ember;
+const { on } = Ember;
 const { next } = Ember.run;
 const {service} = Ember.inject;
 
