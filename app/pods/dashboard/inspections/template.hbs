@@ -20,7 +20,7 @@
     {{/each}}
   </div>
   <div class="col-sm-12" id="content">
-    {{#application/swd-search collapsed=searchCollapsed}}
+    {{#application/swd-search term=id quickSearch=(action 'quickSearch') collapsed=searchCollapsed}}
       <form>
         <div class="row">
           <div class="date-range-filter col-md-8">
@@ -46,7 +46,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="q_number_cont">Inspection Number</label>
-              <input type="text" class="form-control">
+              {{input value=id type="text" placeholder="Inspection number" class="form-control"}}
             </div>
           </div>
         </div>
@@ -57,6 +57,7 @@
                 placeholder='Select a scope'
                 dropdownPosition='below'
                 searchMessage='Please enter three or more charachters'
+                allowClear=true
                 as |scope|
               }}
                 {{scope.name}}
@@ -65,11 +66,11 @@
           </div>
         </div>
         <div class="form-actions">
-          <button disabled={{isLoading}} {{action 'searchInspection'}} name="button" type="submit" class="btn btn-primary">
+          <button {{action 'search'}} name="button" type="submit" class="btn btn-primary">
             <span class="icon icon-search"></span>
             Filter Results
           </button>
-          <button disabled={{isLoading}} {{action 'clearSearch'}} name="button" type="submit" class="btn btn-warning pull-right ">
+          <button {{action 'clearSearch'}} name="button" type="submit" class="btn btn-warning pull-right ">
             <span class="icon icon-remove"></span>
             Clear Search
           </button>
@@ -79,12 +80,14 @@
     {{#unless isLoading}}
       <div class="row index-pagination-row">
         <div class="col-sm-6">
-
+          {{application/swd-page-numbers
+            goToPage=(action "goToPage")
+            metaData=metaData}}
         </div>
         <div class="col-sm-6">
           <div class="pagination-wrap">
             <form class="form-inline" type="hidden">
-              <select onchange={{action (mut per_page) value="target.value"}} class="form-control pull-right">
+              <select onchange={{action 'selectPerPage' value="target.value"}} class="form-control pull-right">
                 {{#each perPageOptions as |perPageChoice|}}
                   <option value="{{perPageChoice}}" selected={{eq perPageChoice per_page}}>{{perPageChoice}}</option>
                 {{/each}}
@@ -98,7 +101,9 @@
        <table class="table">
          <thead>
            <tr>
-             <th class="col-md-1">Inspection Date</th>
+             <th class="col-md-1">
+               <a href="#" {{action 'sort' 'inspected_at'}} class="sort_link {{sortDirection}}" >Inspection Date</a>
+             </th>
              <th class="col-md-1">Number</th>
              <th class="col-md-1">State</th>
              <th class="col-md-1">Scope</th>
@@ -131,15 +136,22 @@
        </table>
        {{else}}
        <div class="alert alert-info no-objects-found">
-        No Inspections found,
-        <a {{action 'createInspection'}} href="#">
-          Add one!
+        No inspections found,
+        <a {{action 'clearSearch'}} href="#">
+          clear
         </a>
+        the search field or
+        <a {{action 'createInspection'}} href="#">
+          add
+        </a>
+        a one.
        </div>
        {{/if}}
      <div class="row index-pagination-row">
        <div class="col-sm-6">
-
+         {{application/swd-page-numbers
+           goToPage=(action "goToPage")
+           metaData=metaData}}
        </div>
        <div class="col-sm-6">
          <div class="pagination-wrap">

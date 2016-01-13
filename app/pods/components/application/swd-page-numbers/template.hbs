@@ -1,1 +1,15 @@
-{{yield}}
+{{#if displayPageNumbers}}
+  <li class="previous {{if disablePrevLink 'disabled'}}">
+    <a href="#" {{action 'prevPage'}}>&laquo;</a>
+  </li>
+
+  {{#each pageNumbers as |pageNumber|}}
+    <li class="{{if (eq pageNumber.number metaData.page) 'active' }}">
+      <a href="#" {{action 'goToPage' pageNumber.number}}>{{pageNumber.text}}</a>
+    </li>
+  {{/each}}
+
+  <li class="next {{if disableNextLink 'disabled'}}">
+    <a href="#" {{action 'nextPage'}}>&raquo;</a>
+  </li>
+{{/if}}

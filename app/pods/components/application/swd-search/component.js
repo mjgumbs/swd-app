@@ -7,6 +7,10 @@ export default Ember.Component.extend({
   actions:{
     toggleFilter(){
       this.toggleProperty('collapsed');
+    },
+
+    quickSearch(){
+      this.get('quickSearch')(this.get('term'));
     }
   }
 });

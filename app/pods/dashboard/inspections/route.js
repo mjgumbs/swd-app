@@ -1,23 +1,12 @@
 import Ember from 'ember';
+import pageListingRouteMixin from 'swd-app/mixins/routes/page-listing';
 
-export default Ember.Route.extend({
-  ransack: null,
-  queryParams: {
-    page:{
-      refreshModel: true
-    },
-    'per_page': {
-      refreshModel: true
-    },
-    q:{
-      refreshModel: true
-    }
-
-  },
-
+export default Ember.Route.extend(pageListingRouteMixin, {
   model(params){
     return this.store.query('inspection', params);
   },
+
+  controllerName: 'dashboard.inspections',
 
   actions: {
     createInspection(){
@@ -34,15 +23,6 @@ export default Ember.Route.extend({
       }
 
       inspection.save().then(transistionToInspection).catch(failure);
-    },
-
-    loading(){
-      let controller = this.controllerFor('dashboard.inspections');
-      controller.set('isLoading', true);
-    },
-    didTransition(){
-      let controller = this.controllerFor('dashboard.inspections');
-      controller.set('isLoading', null);
     }
   }
 });

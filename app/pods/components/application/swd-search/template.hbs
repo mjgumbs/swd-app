@@ -6,8 +6,8 @@
         Filter
       </button>
     </span>
-    <form id="quick-search">
-      <input type="text" class="form-control js-quick-search" placeholder="Quick search..">
+    <form {{action 'quickSearch' on='submit'}} id="quick-search">
+      {{input type="text" value=term  class="form-control js-quick-search" placeholder="Quick search.."}}
     </form>
   </div>
   {{#if collapsed}}

@@ -8,15 +8,15 @@ export default Ember.TextField.extend({
   minDate: null,
 
   onSelect: function(){
-    var picker = this.get('_picker');
+    let picker = this.get('_picker');
     if(picker){
       this.get('setDate')(picker.getDate());
     }
   },
 
-  onDateChangedToBlank: Ember.observer('date', function(){
-    var picker = this.get('_picker');
-    if(picker && (this.get('date') === null)){
+  dateNullOberserver: Ember.observer('date', function(){
+    let picker = this.get('_picker');
+    if(picker && this.get('date') === null){
       picker.setDate(null);
     }
   }),
@@ -24,7 +24,7 @@ export default Ember.TextField.extend({
   setMinMax(){
     var picker = this.get('_picker');
     if(picker){
-      if(this.get('minDate')){
+      if(! Ember.isBlank(this.get('minDate'))){
         picker.setMinDate(this.get('minDate'));
       }
     }
